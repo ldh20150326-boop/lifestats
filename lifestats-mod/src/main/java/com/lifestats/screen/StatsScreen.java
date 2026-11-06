@@ -1,13 +1,11 @@
 package com.lifestats.screen;
 
 import com.lifestats.data.*; import com.lifestats.model.*; import com.lifestats.track.*; import com.lifestats.util.Fmt;
-import net.minecraft.client.gl.RenderPipelines; import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen; import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.item.ItemStack; import net.minecraft.text.Text; import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.DrawContext; import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget; import net.minecraft.item.ItemStack; import net.minecraft.text.Text;
 import java.util.*;
 
 public class StatsScreen extends Screen {
-    private static final Identifier BG = Identifier.of("lifestats", "salmokji.png");
     private static Period period = Period.MONTH; private static Job job = Job.HUNTER;
     private double scroll; private int maxScroll;
     private final List<ButtonWidget> pBtns = new ArrayList<>(), jBtns = new ArrayList<>();
@@ -38,12 +36,11 @@ public class StatsScreen extends Screen {
     @Override
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
         int w = pW(), x0 = pX();
-        // 1. 전체 화면 반투명 붉은 틴트
-        ctx.fill(0, 0, width, height, 0x882A0202);
-        try { ctx.drawTexture(RenderPipelines.GUI_TEXTURED, BG, x0, 5, 0.0F, 0.0F, w, height - 10, w, height - 10, 0x4DFFFFFF); } catch (Exception ignored) {}
+        // 1. 전체 화면을 덮는 은은한 반투명 붉은 틴트
+        ctx.fill(0, 0, width, height, 0x77330000);
 
         // 2. 상단 헤더 박스 (반투명 붉은색)
-        ctx.fill(x0 + 6, 6, x0 + w - 6, 51, 0x80250404); ctx.drawBorder(x0 + 6, 6, w - 12, 45, 0xFFFF1E1E);
+        ctx.fill(x0 + 6, 6, x0 + w - 6, 51, 0x882A0202); ctx.drawBorder(x0 + 6, 6, w - 12, 45, 0xFFFF1E1E);
         ctx.fill(x0 + 14, 18, x0 + 17, 22, 0xFF00D4FF); ctx.fill(x0 + 19, 15, x0 + 22, 22, 0xFF00D4FF); ctx.fill(x0 + 24, 11, x0 + 27, 22, 0xFF00D4FF);
         ctx.drawText(textRenderer, "생활 통계", x0 + 33, 14, 0xFFFFFFFF, true);
         ctx.drawText(textRenderer, "생직 시간", x0 + 250, 14, 0xFFFFFFFF, false);
@@ -51,12 +48,12 @@ public class StatsScreen extends Screen {
 
         String inc = Fmt.won(income(StatsStore.totals(period, job.name()), StatsStore.totals(period, Job.COMMON.name())));
         int iw = textRenderer.getWidth(inc), rx = x0 + w - 14 - (iw + 90);
-        ctx.fill(rx, 9, x0 + w - 12, 26, 0x90450808); ctx.drawBorder(rx, 9, x0 + w - 12 - rx, 17, 0xFF8A1010);
+        ctx.fill(rx, 9, x0 + w - 12, 26, 0x99440505); ctx.drawBorder(rx, 9, x0 + w - 12 - rx, 17, 0xFF991111);
         ctx.drawText(textRenderer, "예상 수익   |", rx + 8, 14, 0xFFFFFFFF, false);
         ctx.drawText(textRenderer, inc, x0 + w - 18 - iw, 14, 0xFFFFDF38, true);
 
         // 3. 서브 타이틀 바 (반투명 붉은색)
-        ctx.fill(x0 + 6, 54, x0 + w - 6, 70, 0x80250404); ctx.drawBorder(x0 + 6, 54, w - 12, 16, 0xFFFF1E1E);
+        ctx.fill(x0 + 6, 54, x0 + w - 6, 70, 0x882A0202); ctx.drawBorder(x0 + 6, 54, w - 12, 16, 0xFFFF1E1E);
         ctx.drawText(textRenderer, job.label + " 통계     |     " + period.label + " 수집 결과 (" + job.label + ")", x0 + 14, 58, 0xFFFFFFFF, true);
 
         super.render(ctx, mouseX, mouseY, delta);
@@ -64,14 +61,14 @@ public class StatsScreen extends Screen {
         // 4. 탭 버튼 네온 렌더
         for (int i = 0; i < Period.values().length && i < pBtns.size(); i++) {
             ButtonWidget b = pBtns.get(i); boolean a = Period.values()[i] == period;
-            ctx.fill(b.getX(), b.getY(), b.getX() + b.getWidth(), b.getY() + b.getHeight(), a ? 0xD0C01010 : 0x80300606);
+            ctx.fill(b.getX(), b.getY(), b.getX() + b.getWidth(), b.getY() + b.getHeight(), a ? 0xD0C01010 : 0x88380404);
             ctx.drawBorder(b.getX(), b.getY(), b.getWidth(), b.getHeight(), a ? 0xFFFF1E1E : 0xFF7A1010);
             ctx.drawText(textRenderer, b.getMessage(), b.getX() + (b.getWidth() - textRenderer.getWidth(b.getMessage())) / 2, b.getY() + 4, 0xFFFFFFFF, a);
         }
         Job[] tabs = Job.tabs();
         for (int i = 0; i < tabs.length && i < jBtns.size(); i++) {
             ButtonWidget b = jBtns.get(i); boolean a = tabs[i] == job;
-            ctx.fill(b.getX(), b.getY(), b.getX() + b.getWidth(), b.getY() + b.getHeight(), a ? 0xD0C01010 : 0x80300606);
+            ctx.fill(b.getX(), b.getY(), b.getX() + b.getWidth(), b.getY() + b.getHeight(), a ? 0xD0C01010 : 0x88380404);
             ctx.drawBorder(b.getX(), b.getY(), b.getWidth(), b.getHeight(), a ? 0xFFFF1E1E : 0xFF7A1010);
             ctx.drawText(textRenderer, b.getMessage(), b.getX() + (b.getWidth() - textRenderer.getWidth(b.getMessage())) / 2, b.getY() + 4, 0xFFFFFFFF, a);
         }
@@ -93,8 +90,8 @@ public class StatsScreen extends Screen {
 
         // 6. 하단 경험치 바 (반투명 붉은색)
         int cX = x0 + 6, cW = w - 12, ey = height - 30;
-        ctx.fill(cX, ey, cX + cW, ey + 24, 0x80250404); ctx.drawBorder(cX, ey, cW, 24, 0xFFFF1E1E);
-        ctx.fill(cX, ey, cX + 46, ey + 24, 0x99380606); ctx.fill(cX + 46, ey, cX + 47, ey + 24, 0xFFFF1E1E);
+        ctx.fill(cX, ey, cX + cW, ey + 24, 0x882A0202); ctx.drawBorder(cX, ey, cW, 24, 0xFFFF1E1E);
+        ctx.fill(cX, ey, cX + 46, ey + 24, 0xAA3B0505); ctx.fill(cX + 46, ey, cX + 47, ey + 24, 0xFFFF1E1E);
         ctx.drawText(textRenderer, "경험치", cX + (46 - textRenderer.getWidth("경험치")) / 2, ey + 8, 0xFFFFFFFF, true);
         if (client != null && client.player != null) {
             ExpTracker.ensureStarted(client);
@@ -115,9 +112,9 @@ public class StatsScreen extends Screen {
         int rows = (list.size() + cols - 1) / cols, cardH = relic ? 28 : Math.max(26, rows * 18 + 8);
         int cX = x0 + 6, cW = w - 12;
 
-        // 반투명 붉은색 카드 배경 (0x80250404) & 뱃지 (0x99380606)
-        ctx.fill(cX, y, cX + cW, y + cardH, 0x80250404); ctx.drawBorder(cX, y, cW, cardH, 0xFFFF1E1E);
-        ctx.fill(cX, y, cX + 46, y + cardH, 0x99380606); ctx.fill(cX + 46, y, cX + 47, y + cardH, 0xFFFF1E1E);
+        // 반투명 붉은색 카드 배경 (0x882A0202) & 뱃지 (0xAA3B0505)
+        ctx.fill(cX, y, cX + cW, y + cardH, 0x882A0202); ctx.drawBorder(cX, y, cW, cardH, 0xFFFF1E1E);
+        ctx.fill(cX, y, cX + 46, y + cardH, 0xAA3B0505); ctx.fill(cX + 46, y, cX + 47, y + cardH, 0xFFFF1E1E);
         ctx.drawText(textRenderer, tag, cX + (46 - textRenderer.getWidth(tag)) / 2, y + (cardH - 8) / 2, 0xFFFFFFFF, true);
 
         int inX = cX + 54, inW = cW - 60;
