@@ -1,5 +1,6 @@
 package com.lifestats.screen;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.lifestats.data.ItemRegistry;
 import com.lifestats.data.PriceManager;
 import com.lifestats.data.StatsStore;
@@ -15,20 +16,24 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/** 생활 통계 화면: 기간(일/주/월) × 직업 탭, 구역별 수집량, 예상 수익, 생직 시간, 경험치. */
+/** 살목지 다크 레드 테마 생활 통계 화면 */
 public class StatsScreen extends Screen {
-    private static final int C_PANEL = 0xFF0E2433;
-    private static final int C_BORDER = 0xFF1F8FB5;
-    private static final int C_TITLE = 0xFFFFFFFF;
-    private static final int C_SECTION = 0xFF58C7F3;
-    private static final int C_NAME = 0xFFE6EEF2;
-    private static final int C_VALUE = 0xFFFFE04D;
-    private static final int C_DIM = 0xFF8FA3AE;
+    private static final Identifier BG_SALMOKJI = Identifier.of("lifestats", "salmokji.png");
+
+    // 살목지 핏빛/검붉은 테마 컬러 팔레트
+    private static final int C_PANEL = 0xD0120505;   // 짙은 검붉은 배경 (투명도 약 80%)
+    private static final int C_BORDER = 0xFF9E1B1B;  // 핏빛 테두리
+    private static final int C_TITLE = 0xFFFF3333;   // 살목지 붉은 타이틀
+    private static final int C_SECTION = 0xFFFF6666; // 섹션 소제목
+    private static final int C_NAME = 0xFFF0E4E4;    // 아이템 이름 (밝은 아이보리)
+    private static final int C_VALUE = 0xFFFFB347;   // 수량/수익 (붉은 노을빛 오렌지 골드)
+    private static final int C_DIM = 0xFF9E7070;     // 비활성 텍스트 (어두운 적갈색)
 
     private static Period lastPeriod = Period.MONTH;
     private static Job lastJob = Job.HUNTER;
@@ -89,7 +94,6 @@ public class StatsScreen extends Screen {
 
     @Override
     public void renderBackground(DrawContext ctx, int mouseX, int mouseY, float delta) {
-        // 기본 블러 배경 대신 직접 그린다 (render 안에서 처리)
     }
 
     @Override
@@ -97,8 +101,22 @@ public class StatsScreen extends Screen {
         int w = panelW();
         int x0 = panelX();
 
-        ctx.fill(0, 0, width, height, 0xB0000000);
+        // 1. 전체 화면 어둡게 블러
+        ctx.fill(0, 0, width, height, 0xB8000000);
+
+        // 2. 패널 기본 검붉은 바탕
         ctx.fill(x0, 8, x0 + w, height - 8, C_PANEL);
+
+        // 3. 살목지 일러스트 배경 그리기 (투명도 30%)
+        try {
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.3F); // 투명도 30% 설정
+            ctx.drawTexture(BG_SALMOKJI, x0, 8, 0, 0, w, height - 16, w, height - 16);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F); // 색상 리셋
+        } catch (Exception ignored) {
+        }
+
+        // 4. 살목지 핏빛 테두리
         ctx.drawBorder(x0, 8, w, height - 16, C_BORDER);
 
         super.render(ctx, mouseX, mouseY, delta);
@@ -113,7 +131,7 @@ public class StatsScreen extends Screen {
         String income = "예상 수익 " + Fmt.won(income(mine, common));
         ctx.drawText(textRenderer, income, x0 + w - 8 - textRenderer.getWidth(income), 13, C_VALUE, true);
 
-        // 스크롤되는 본문
+        // 스크롤되는 본문 영역
         int top = 72;
         int bottom = height - 30;
         ctx.enableScissor(x0 + 4, top, x0 + w - 4, bottom);
@@ -128,11 +146,6 @@ public class StatsScreen extends Screen {
         int contentHeight = y - (top - (int) scroll);
         maxScroll = Math.max(0, contentHeight - (bottom - top));
         if (scroll > maxScroll) scroll = maxScroll;
-
-        if (ItemRegistry.items(job).isEmpty()) {
-            String msg = job.label + " 품목이 아직 없습니다. config/lifestats/jobs.json 에 추가하세요.";
-            ctx.drawText(textRenderer, msg, x0 + 12, top + 6, C_DIM, false);
-        }
 
         // 하단: 경험치
         ctx.fill(x0 + 4, height - 28, x0 + w - 4, height - 27, C_BORDER);
