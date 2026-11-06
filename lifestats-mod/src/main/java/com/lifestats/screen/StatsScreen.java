@@ -10,10 +10,10 @@ import com.lifestats.model.Period;
 import com.lifestats.track.ExpTracker;
 import com.lifestats.track.InventoryTracker;
 import com.lifestats.util.Fmt;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -107,9 +107,9 @@ public class StatsScreen extends Screen {
         // 2. 패널 기본 검붉은 바탕
         ctx.fill(x0, 8, x0 + w, height - 8, C_PANEL);
 
-        // 3. 살목지 일러스트 배경 그리기 (투명도 30% 0x4DFFFFFF 적용)
+        // 3. 살목지 일러스트 배경 그리기 (RenderPipelines.GUI_TEXTURED 적용)
         try {
-            ctx.drawTexture(RenderLayer::getGuiTextured, BG_SALMOKJI, x0, 8, 0.0F, 0.0F, w, height - 16, w, height - 16, 0x4DFFFFFF);
+            ctx.drawTexture(RenderPipelines.GUI_TEXTURED, BG_SALMOKJI, x0, 8, 0.0F, 0.0F, w, height - 16, w, height - 16, 0x4DFFFFFF);
         } catch (Exception ignored) {
         }
 
