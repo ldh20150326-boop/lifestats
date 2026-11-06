@@ -1,6 +1,5 @@
 package com.lifestats.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.lifestats.data.ItemRegistry;
 import com.lifestats.data.PriceManager;
 import com.lifestats.data.StatsStore;
@@ -14,6 +13,7 @@ import com.lifestats.util.Fmt;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -27,13 +27,13 @@ public class StatsScreen extends Screen {
     private static final Identifier BG_SALMOKJI = Identifier.of("lifestats", "salmokji.png");
 
     // 살목지 핏빛/검붉은 테마 컬러 팔레트
-    private static final int C_PANEL = 0xD0120505;   // 짙은 검붉은 배경 (투명도 약 80%)
+    private static final int C_PANEL = 0xD0120505;   // 짙은 검붉은 배경
     private static final int C_BORDER = 0xFF9E1B1B;  // 핏빛 테두리
     private static final int C_TITLE = 0xFFFF3333;   // 살목지 붉은 타이틀
     private static final int C_SECTION = 0xFFFF6666; // 섹션 소제목
-    private static final int C_NAME = 0xFFF0E4E4;    // 아이템 이름 (밝은 아이보리)
+    private static final int C_NAME = 0xFFF0E4E4;    // 아이템 이름
     private static final int C_VALUE = 0xFFFFB347;   // 수량/수익 (붉은 노을빛 오렌지 골드)
-    private static final int C_DIM = 0xFF9E7070;     // 비활성 텍스트 (어두운 적갈색)
+    private static final int C_DIM = 0xFF9E7070;     // 비활성 텍스트
 
     private static Period lastPeriod = Period.MONTH;
     private static Job lastJob = Job.HUNTER;
@@ -107,12 +107,9 @@ public class StatsScreen extends Screen {
         // 2. 패널 기본 검붉은 바탕
         ctx.fill(x0, 8, x0 + w, height - 8, C_PANEL);
 
-        // 3. 살목지 일러스트 배경 그리기 (투명도 30%)
+        // 3. 살목지 일러스트 배경 그리기 (1.21.8 최신 규격 투명도 30% 적용)
         try {
-            RenderSystem.enableBlend();
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.3F); // 투명도 30% 설정
-            ctx.drawTexture(BG_SALMOKJI, x0, 8, 0, 0, w, height - 16, w, height - 16);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F); // 색상 리셋
+            ctx.drawTexture(RenderLayer::getGuiTranslucent, BG_SALMOKJI, x0, 8, 0.0F, 0.0F, w, height - 16, w, height - 16, 0x4DFFFFFF);
         } catch (Exception ignored) {
         }
 
@@ -131,7 +128,7 @@ public class StatsScreen extends Screen {
         String income = "예상 수익 " + Fmt.won(income(mine, common));
         ctx.drawText(textRenderer, income, x0 + w - 8 - textRenderer.getWidth(income), 13, C_VALUE, true);
 
-        // 스크롤되는 본문 영역
+        // 본문 스크롤 영역
         int top = 72;
         int bottom = height - 30;
         ctx.enableScissor(x0 + 4, top, x0 + w - 4, bottom);
