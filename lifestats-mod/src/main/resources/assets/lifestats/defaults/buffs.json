@@ -1,0 +1,11 @@
+[
+  { "id": "exp15", "name": "경험치쿠폰 ×1.5", "match": "경험치쿠폰 ×1.5", "chat": "", "effectSeconds": 2126, "cooldownSeconds": 0 },
+  { "id": "exp2",  "name": "경험치쿠폰 ×2",   "match": "경험치쿠폰 ×2",   "chat": "", "effectSeconds": 2126, "cooldownSeconds": 0 },
+  { "id": "exp3",  "name": "경험치쿠폰 ×3",   "match": "경험치쿠폰 ×3",   "chat": "", "effectSeconds": 2126, "cooldownSeconds": 0 },
+  { "id": "carrot20", "name": "당비계 +20%", "match": "당비계 +20%", "chat": "", "effectSeconds": 494, "cooldownSeconds": 1094 },
+  { "id": "carrot35", "name": "당비계 +35%", "match": "당비계 +35%", "chat": "", "effectSeconds": 494, "cooldownSeconds": 1094 },
+  { "id": "carrot50", "name": "당비계 +50%", "match": "당비계 +50%", "chat": "", "effectSeconds": 494, "cooldownSeconds": 1094 },
+  { "id": "fishing_totem", "name": "낚시토템", "match": "낚시토템", "chat": "", "effectSeconds": 768, "cooldownSeconds": 0 },
+  { "id": "epic_rice", "name": "에픽밥", "match": "에픽밥", "chat": "", "effectSeconds": 0, "cooldownSeconds": 372 },
+  { "id": "terraforming", "name": "테라포밍", "match": "테라포밍", "chat": "", "effectSeconds": 0, "cooldownSeconds": 128 }
+]

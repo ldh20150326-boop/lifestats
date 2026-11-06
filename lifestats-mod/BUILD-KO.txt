@@ -1,0 +1,13 @@
+LifeStats - Minecraft Fabric 1.21.8
+
+빌드 방법
+1. Java 21 이상 설치
+2. Gradle 8.14 이상 설치 후 PATH 등록
+3. Windows에서 build.bat 실행
+4. 성공하면 build/libs/lifestats-1.0.0.jar 생성
+5. 해당 JAR을 .minecraft/mods 폴더에 복사
+6. Fabric Loader 1.21.8 및 Fabric API 1.21.8을 설치한 프로필로 실행
+
+참고
+첫 빌드에는 Minecraft, Yarn mappings, Fabric Loader/API, Loom 등의 의존성을 인터넷에서 내려받습니다.
+인터넷 연결 또는 Maven 저장소 접근이 차단되면 빌드되지 않습니다.

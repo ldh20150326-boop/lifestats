@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "lifestats",
+  "version": "${version}",
+  "name": "생활 통계",
+  "description": "생활 직업(광부/농부/어부/나무꾼/사냥꾼)의 수집량, 예상 수익, 생직 시간, 버프·재사용 시간을 보여주는 클라이언트 모드",
+  "authors": [],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.lifestats.LifeStatsClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "fabric-api": "*",
+    "minecraft": "1.21.8",
+    "java": ">=21"
+  }
+}

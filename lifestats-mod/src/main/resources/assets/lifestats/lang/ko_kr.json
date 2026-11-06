@@ -1,0 +1,6 @@
+{
+  "key.lifestats.open": "생활 통계 열기",
+  "key.lifestats.toggle_hud": "버프 HUD 켜기/끄기",
+  "key.lifestats.reset_exp": "경험치 측정 시작점 재설정",
+  "category.lifestats": "생활 통계"
+}
