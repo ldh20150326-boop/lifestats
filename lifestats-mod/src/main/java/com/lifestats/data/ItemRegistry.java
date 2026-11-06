@@ -22,7 +22,6 @@ public final class ItemRegistry {
         for (Job j : Job.values()) BY_JOB.put(j, new ArrayList<>());
 
         reg(Job.COMMON, Category.COMMON, "생활의 교본");
-
         reg(Job.MINER, Category.ELEMENT, "땅의 원소 가루", "땅의 원소 조각", "땅의 원소 정수");
         reg(Job.MINER, Category.BYPRODUCT_RARE, "솔라이트 원석", "가넷", "토파즈", "페리도트", "아쿠아마린");
         reg(Job.MINER, Category.RELIC, "암모나이트 화석", "거미 화석", "물고기 화석", "공룡알 화석", "대지의 정령의 호박화석", "고대의 피라미드 큐브", "실종된 광부의 표본샘플");
