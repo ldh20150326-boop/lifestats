@@ -107,9 +107,9 @@ public class StatsScreen extends Screen {
         // 2. 패널 기본 검붉은 바탕
         ctx.fill(x0, 8, x0 + w, height - 8, C_PANEL);
 
-        // 3. 살목지 일러스트 배경 그리기 (1.21.8 최신 규격 투명도 30% 적용)
+        // 3. 살목지 일러스트 배경 그리기 (투명도 30% 0x4DFFFFFF 적용)
         try {
-            ctx.drawTexture(RenderLayer::getGuiTranslucent, BG_SALMOKJI, x0, 8, 0.0F, 0.0F, w, height - 16, w, height - 16, 0x4DFFFFFF);
+            ctx.drawTexture(RenderLayer::getGuiTextured, BG_SALMOKJI, x0, 8, 0.0F, 0.0F, w, height - 16, w, height - 16, 0x4DFFFFFF);
         } catch (Exception ignored) {
         }
 
